@@ -100,8 +100,19 @@ fn start_step(end: u64, endbreak: u64, time: Instant, content: Box, label3: Labe
     let mut owned_string: String = "Remaining time: ".to_owned();
     let borrowed_string: &str = &(((end - time.elapsed().as_secs()) / 60) % 60).to_string();
     owned_string.push_str(borrowed_string);
-    let borrowed_string: &str = " Minutes";
+    let borrowed_string: &str = ":";
     owned_string.push_str(borrowed_string);
+    if ((end - time.elapsed().as_secs()) - ((((end - time.elapsed().as_secs()) / 60) % 60) * 60))
+        == 0
+    {
+        let borrowed_string = "00";
+        owned_string.push_str(borrowed_string);
+    } else {
+        let borrowed_string: &str = &((end - time.elapsed().as_secs())
+            - ((((end - time.elapsed().as_secs()) / 60) % 60) * 60))
+            .to_string();
+        owned_string.push_str(borrowed_string);
+    }
 
     let label2 = Label::builder()
         .label(&owned_string)
@@ -140,8 +151,20 @@ fn start_step(end: u64, endbreak: u64, time: Instant, content: Box, label3: Labe
             let mut owned_string: String = "Remaining time: ".to_owned();
             let borrowed_string: &str = &(((end - time.elapsed().as_secs()) / 60) % 60).to_string();
             owned_string.push_str(borrowed_string);
-            let borrowed_string: &str = " Minutes";
+            let borrowed_string: &str = ":";
             owned_string.push_str(borrowed_string);
+            if ((end - time.elapsed().as_secs())
+                - ((((end - time.elapsed().as_secs()) / 60) % 60) * 60))
+                == 0
+            {
+                let borrowed_string = "00";
+                owned_string.push_str(borrowed_string);
+            } else {
+                let borrowed_string: &str = &((end - time.elapsed().as_secs())
+                    - ((((end - time.elapsed().as_secs()) / 60) % 60) * 60))
+                    .to_string();
+                owned_string.push_str(borrowed_string);
+            }
 
             label2.set_text(&owned_string);
             glib::Continue(true)
